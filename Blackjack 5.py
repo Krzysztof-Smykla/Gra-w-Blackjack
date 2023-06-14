@@ -1,7 +1,6 @@
 import random
 import tkinter as tk
 
-
 class BlackjackGame:
     def __init__(self, window):
         self.window = window
@@ -59,6 +58,7 @@ class BlackjackGame:
         self.initial_deal()
 
     def load_images(self):
+        # Load card images from files and store them in the deck
         suits = ['heart', 'club', 'diamond', 'spade']
         face_cards = ['jack', 'queen', 'king']
 
@@ -74,18 +74,22 @@ class BlackjackGame:
                 self.deck.append((10, image))
 
     def create_deck(self):
+        # Create a full deck of cards by replicating the existing deck
         self.deck = list(self.deck) + list(self.deck) + list(self.deck)
 
     def shuffle(self):
+        # Shuffle the deck randomly
         random.shuffle(self.deck)
 
     def deal_card(self, frame):
+        # Deal a card from the deck and display it in the given frame
         next_card = self.deck.pop(0)
         self.deck.append(next_card)
         tk.Label(frame, image=next_card[1], relief="raised").pack(side="left")
         return next_card
 
     def score_hand(self, hand):
+        # Calculate the score of a hand
         score = 0
         ace = False
         for next_card in hand:
@@ -100,6 +104,7 @@ class BlackjackGame:
         return score
 
     def deal_dealer(self):
+        # Handle the dealer's turn
         self.player_button.configure(state="disabled")
         self.dealer_button.configure(state="disabled")
 
@@ -120,6 +125,7 @@ class BlackjackGame:
             self.result_text.set("Draw!")
 
     def deal_player(self):
+        # Handle the player's turn
         self.player_hand.append(self.deal_card(self.player_card_frame))
         player_score = self.score_hand(self.player_hand)
         self.player_score_label.set(player_score)
@@ -129,6 +135,7 @@ class BlackjackGame:
             self.dealer_button.configure(state="disabled")
 
     def initial_deal(self):
+        # Deal the initial cards to start the game
         self.player_button.configure(state="normal")
         self.dealer_button.configure(state="normal")
 
@@ -138,6 +145,7 @@ class BlackjackGame:
         self.deal_player()
 
     def new_game(self):
+        # Start a new game
         self.player_button.configure(state="normal")
         self.dealer_button.configure(state="normal")
 
@@ -156,9 +164,9 @@ class BlackjackGame:
         self.initial_deal()
 
     def play(self):
+        # Start the game loop
         self.initial_deal()
         self.window.mainloop()
-
 
 if __name__ == "__main__":
     mainWindow = tk.Tk()
