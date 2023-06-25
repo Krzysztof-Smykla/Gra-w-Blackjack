@@ -4,71 +4,8 @@ import tkinter as tk
 
 class BlackjackGame:
     class Card:
-        def __init__(self, deck, load_images, create_deck):
+        def __init__( self, deck ):
             self.deck = []
-            self.load_images()
-            self.create_deck()
-
-    def __init__( self, window ):
-        self.window = window
-        self.window.title("Black Jack")
-        self.window.geometry("800x600")
-        self.window.configure(bg="#3fba4c")
-
-        self.result_text = tk.StringVar()
-        self.result = tk.Label(self.window, textvariable=self.result_text, font=("Arial", 16))
-        self.result.grid(row=0, column=0, columnspan=3)
-
-        self.card_frame = tk.Frame(self.window, relief="sunken", borderwidth=1, bg="black")
-        self.card_frame.grid(row=1, column=0, sticky='ew', columnspan=3, rowspan=2)
-
-        self.dealer_score_label = tk.IntVar()
-        tk.Label(self.card_frame, text="Dealer", bg="black", fg="white", font=("Arial", 14)).grid(row=0, column=0)
-        tk.Label(self.card_frame, textvariable=self.dealer_score_label, bg="black", fg="white",
-                 font=("Arial", 14)).grid(row=1, column=0)
-        self.dealer_card_frame = tk.Frame(self.card_frame, bg="black")
-        self.dealer_card_frame.grid(row=0, column=1, sticky='ew', rowspan=2)
-
-        self.player_score_label = tk.IntVar()
-        tk.Label(self.card_frame, text="Player", bg="black", fg="white", font=("Arial", 14)).grid(row=2, column=0)
-        tk.Label(self.card_frame, textvariable=self.player_score_label, bg="black", fg="white",
-                 font=("Arial", 14)).grid(row=3, column=0)
-        self.player_card_frame = tk.Frame(self.card_frame, bg="black")
-        self.player_card_frame.grid(row=2, column=1, sticky='ew', rowspan=2)
-
-        self.button_frame = tk.Frame(self.window)
-        self.button_frame.grid(row=3, column=1, columnspan=3, sticky='w')
-
-        self.player_button = tk.Button(self.button_frame, text="Hit", command=self.deal_player, padx=8, pady=6,
-                                       relief="solid", borderwidth=1, font=("Arial", 12))
-        self.player_button.grid(row=0, column=0)
-
-        self.dealer_button = tk.Button(self.button_frame, text="Stay", command=self.deal_dealer, padx=5, pady=6,
-                                       relief="solid", borderwidth=1, font=("Arial", 12))
-        self.dealer_button.grid(row=0, column=1)
-
-        self.reset_button = tk.Button(self.button_frame, text="New Game", command=self.new_game, padx=5, pady=6,
-                                      relief="solid", borderwidth=1, font=("Arial", 12))
-        self.reset_button.grid(row=0, column=2)
-
-        self.rules_text = '''Blackjack hands are scored by their point total. The hand with the highest total wins as long as it doesn't exceed 21; a hand with a higher total than 21 is said to bust. Cards 2 through 10 are worth their face value, and face cards (jack, queen, king) are also worth 10. An ace's value is 11 unless this would cause the player to bust, in which case it is worth 1. A hand in which an ace's value is counted as 11 is called a soft hand, because it cannot be busted if the player draws another card.
-        The goal of each player is to beat the dealer by having the higher, unbusted hand.'''
-
-        self.rules_frame = tk.Frame(self.window, relief="solid", borderwidth=1)
-        self.rules_frame.grid(row=4, column=0, columnspan=3, padx=10, pady=10)
-
-        self.rules_label = tk.Label(self.rules_frame, text=self.rules_text, font=("Source Code Pro", 12, "italic"),
-                                    wraplength=750, justify="left")
-        self.rules_label.pack()
-
-        self.deck = []
-        self.load_images()
-        self.create_deck()
-        self.shuffle()
-
-        self.dealer_hand = []
-        self.player_hand = []
-        self.initial_deal()
 
     def load_images( self ):
         # Load card images from files and store them in the deck
@@ -181,8 +118,70 @@ class BlackjackGame:
         self.initial_deal()
         self.window.mainloop()
 
+    def __init__( self, window ):
+        self.window = window
+        self.window.title("Black Jack")
+        self.window.geometry("800x600")
+        self.window.configure(bg="#3fba4c")
 
-if __name__ == "__main__":
-    mainWindow = tk.Tk()
-    game = BlackjackGame(mainWindow)
-    game.play()
+        self.result_text = tk.StringVar()
+        self.result = tk.Label(self.window, textvariable=self.result_text, font=("Arial", 16))
+        self.result.grid(row=0, column=0, columnspan=3)
+
+        self.card_frame = tk.Frame(self.window, relief="sunken", borderwidth=1, bg="black")
+        self.card_frame.grid(row=1, column=0, sticky='ew', columnspan=3, rowspan=2)
+
+        self.dealer_score_label = tk.IntVar()
+        tk.Label(self.card_frame, text="Dealer", bg="black", fg="white", font=("Arial", 14)).grid(row=0, column=0)
+        tk.Label(self.card_frame, textvariable=self.dealer_score_label, bg="black", fg="white",
+                 font=("Arial", 14)).grid(row=1, column=0)
+        self.dealer_card_frame = tk.Frame(self.card_frame, bg="black")
+        self.dealer_card_frame.grid(row=0, column=1, sticky='ew', rowspan=2)
+
+        self.player_score_label = tk.IntVar()
+        tk.Label(self.card_frame, text="Player", bg="black", fg="white", font=("Arial", 14)).grid(row=2, column=0)
+        tk.Label(self.card_frame, textvariable=self.player_score_label, bg="black", fg="white",
+                 font=("Arial", 14)).grid(row=3, column=0)
+        self.player_card_frame = tk.Frame(self.card_frame, bg="black")
+        self.player_card_frame.grid(row=2, column=1, sticky='ew', rowspan=2)
+
+        self.button_frame = tk.Frame(self.window)
+        self.button_frame.grid(row=3, column=1, columnspan=3, sticky='w')
+
+        self.player_button = tk.Button(self.button_frame, text="Hit", command=self.deal_player, padx=8, pady=6,
+                                       relief="solid", borderwidth=1, font=("Arial", 12))
+        self.player_button.grid(row=0, column=0)
+
+        self.dealer_button = tk.Button(self.button_frame, text="Stay", command=self.deal_dealer, padx=5, pady=6,
+                                       relief="solid", borderwidth=1, font=("Arial", 12))
+        self.dealer_button.grid(row=0, column=1)
+
+        self.reset_button = tk.Button(self.button_frame, text="New Game", command=self.new_game, padx=5, pady=6,
+                                      relief="solid", borderwidth=1, font=("Arial", 12))
+        self.reset_button.grid(row=0, column=2)
+
+        self.rules_text = '''Blackjack hands are scored by their point total. The hand with the highest total wins as long as it doesn't exceed 21; a hand with a higher total than 21 is said to bust. Cards 2 through 10 are worth their face value, and face cards (jack, queen, king) are also worth 10. An ace's value is 11 unless this would cause the player to bust, in which case it is worth 1. A hand in which an ace's value is counted as 11 is called a soft hand, because it cannot be busted if the player draws another card.
+                The goal of each player is to beat the dealer by having the higher, unbusted hand.'''
+        self.rules_frame = tk.Frame(self.window, relief="solid", borderwidth=1)
+        self.rules_frame.grid(row=4, column=0, columnspan=3, padx=10, pady=10)
+
+        self.rules_label = tk.Label(self.rules_frame, text=self.rules_text, font=("Source Code Pro", 12, "italic"),
+                                    wraplength=750, justify="left")
+        self.rules_label.pack()
+
+        self.deck = []
+        self.load_images()
+        self.create_deck()
+        self.shuffle()
+
+        self.player_hand = []
+        self.dealer_hand = []
+
+        self.play()
+
+
+
+
+# Create the game window
+window = tk.Tk()
+game = BlackjackGame(window)
