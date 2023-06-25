@@ -1,8 +1,15 @@
 import random
 import tkinter as tk
 
+
 class BlackjackGame:
-    def __init__(self, window):
+    class Card:
+        def __init__(self, deck, load_images, create_deck):
+            self.deck = []
+            self.load_images()
+            self.create_deck()
+
+    def __init__( self, window ):
         self.window = window
         self.window.title("Black Jack")
         self.window.geometry("800x600")
@@ -17,26 +24,31 @@ class BlackjackGame:
 
         self.dealer_score_label = tk.IntVar()
         tk.Label(self.card_frame, text="Dealer", bg="black", fg="white", font=("Arial", 14)).grid(row=0, column=0)
-        tk.Label(self.card_frame, textvariable=self.dealer_score_label, bg="black", fg="white", font=("Arial", 14)).grid(row=1, column=0)
+        tk.Label(self.card_frame, textvariable=self.dealer_score_label, bg="black", fg="white",
+                 font=("Arial", 14)).grid(row=1, column=0)
         self.dealer_card_frame = tk.Frame(self.card_frame, bg="black")
         self.dealer_card_frame.grid(row=0, column=1, sticky='ew', rowspan=2)
 
         self.player_score_label = tk.IntVar()
         tk.Label(self.card_frame, text="Player", bg="black", fg="white", font=("Arial", 14)).grid(row=2, column=0)
-        tk.Label(self.card_frame, textvariable=self.player_score_label, bg="black", fg="white", font=("Arial", 14)).grid(row=3, column=0)
+        tk.Label(self.card_frame, textvariable=self.player_score_label, bg="black", fg="white",
+                 font=("Arial", 14)).grid(row=3, column=0)
         self.player_card_frame = tk.Frame(self.card_frame, bg="black")
         self.player_card_frame.grid(row=2, column=1, sticky='ew', rowspan=2)
 
         self.button_frame = tk.Frame(self.window)
         self.button_frame.grid(row=3, column=1, columnspan=3, sticky='w')
 
-        self.player_button = tk.Button(self.button_frame, text="Hit", command=self.deal_player, padx=8, pady=6, relief="solid", borderwidth=1, font=("Arial", 12))
+        self.player_button = tk.Button(self.button_frame, text="Hit", command=self.deal_player, padx=8, pady=6,
+                                       relief="solid", borderwidth=1, font=("Arial", 12))
         self.player_button.grid(row=0, column=0)
 
-        self.dealer_button = tk.Button(self.button_frame, text="Stay", command=self.deal_dealer, padx=5, pady=6, relief="solid", borderwidth=1, font=("Arial", 12))
+        self.dealer_button = tk.Button(self.button_frame, text="Stay", command=self.deal_dealer, padx=5, pady=6,
+                                       relief="solid", borderwidth=1, font=("Arial", 12))
         self.dealer_button.grid(row=0, column=1)
 
-        self.reset_button = tk.Button(self.button_frame, text="New Game", command=self.new_game, padx=5, pady=6, relief="solid", borderwidth=1, font=("Arial", 12))
+        self.reset_button = tk.Button(self.button_frame, text="New Game", command=self.new_game, padx=5, pady=6,
+                                      relief="solid", borderwidth=1, font=("Arial", 12))
         self.reset_button.grid(row=0, column=2)
 
         self.rules_text = '''Blackjack hands are scored by their point total. The hand with the highest total wins as long as it doesn't exceed 21; a hand with a higher total than 21 is said to bust. Cards 2 through 10 are worth their face value, and face cards (jack, queen, king) are also worth 10. An ace's value is 11 unless this would cause the player to bust, in which case it is worth 1. A hand in which an ace's value is counted as 11 is called a soft hand, because it cannot be busted if the player draws another card.
@@ -45,7 +57,8 @@ class BlackjackGame:
         self.rules_frame = tk.Frame(self.window, relief="solid", borderwidth=1)
         self.rules_frame.grid(row=4, column=0, columnspan=3, padx=10, pady=10)
 
-        self.rules_label = tk.Label(self.rules_frame, text=self.rules_text, font=("Source Code Pro", 12, "italic"), wraplength=750, justify="left")
+        self.rules_label = tk.Label(self.rules_frame, text=self.rules_text, font=("Source Code Pro", 12, "italic"),
+                                    wraplength=750, justify="left")
         self.rules_label.pack()
 
         self.deck = []
@@ -57,7 +70,7 @@ class BlackjackGame:
         self.player_hand = []
         self.initial_deal()
 
-    def load_images(self):
+    def load_images( self ):
         # Load card images from files and store them in the deck
         suits = ['heart', 'club', 'diamond', 'spade']
         face_cards = ['jack', 'queen', 'king']
@@ -73,22 +86,22 @@ class BlackjackGame:
                 image = tk.PhotoImage(file=name)
                 self.deck.append((10, image))
 
-    def create_deck(self):
+    def create_deck( self ):
         # Create a full deck of cards by replicating the existing deck
         self.deck = list(self.deck) + list(self.deck) + list(self.deck)
 
-    def shuffle(self):
+    def shuffle( self ):
         # Shuffle the deck randomly
         random.shuffle(self.deck)
 
-    def deal_card(self, frame):
+    def deal_card( self, frame ):
         # Deal a card from the deck and display it in the given frame
         next_card = self.deck.pop(0)
         self.deck.append(next_card)
         tk.Label(frame, image=next_card[1], relief="raised").pack(side="left")
         return next_card
 
-    def score_hand(self, hand):
+    def score_hand( self, hand ):
         # Calculate the score of a hand
         score = 0
         ace = False
@@ -103,7 +116,7 @@ class BlackjackGame:
                 ace = False
         return score
 
-    def deal_dealer(self):
+    def deal_dealer( self ):
         # Handle the dealer's turn
         self.player_button.configure(state="disabled")
         self.dealer_button.configure(state="disabled")
@@ -124,7 +137,7 @@ class BlackjackGame:
         else:
             self.result_text.set("Draw!")
 
-    def deal_player(self):
+    def deal_player( self ):
         # Handle the player's turn
         self.player_hand.append(self.deal_card(self.player_card_frame))
         player_score = self.score_hand(self.player_hand)
@@ -134,7 +147,7 @@ class BlackjackGame:
             self.player_button.configure(state="disabled")
             self.dealer_button.configure(state="disabled")
 
-    def initial_deal(self):
+    def initial_deal( self ):
         # Deal the initial cards to start the game
         self.player_button.configure(state="normal")
         self.dealer_button.configure(state="normal")
@@ -144,7 +157,7 @@ class BlackjackGame:
         self.dealer_score_label.set(self.score_hand(self.dealer_hand))
         self.deal_player()
 
-    def new_game(self):
+    def new_game( self ):
         # Start a new game
         self.player_button.configure(state="normal")
         self.dealer_button.configure(state="normal")
@@ -163,10 +176,11 @@ class BlackjackGame:
         self.player_hand = []
         self.initial_deal()
 
-    def play(self):
+    def play( self ):
         # Start the game loop
         self.initial_deal()
         self.window.mainloop()
+
 
 if __name__ == "__main__":
     mainWindow = tk.Tk()
